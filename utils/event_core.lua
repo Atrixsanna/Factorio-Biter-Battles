@@ -33,23 +33,10 @@ local function errorHandler(err)
 end
 
 local call_handlers
-function call_handlers(handlers, event)
-    if not handlers then
-        return log('Handlers was nil!')
-    end
-    local handlers_copy = table.deepcopy(handlers)
-    for i = 1, #handlers do
-        local handler = handlers[i]
-        if handler == nil and handlers_copy[i] ~= nil then
-            if table.contains(handlers, handlers_copy[i]) then
-                handler = handlers_copy[i]
-            end
-        end
-        if handler ~= nil then
-            xpcall(handler, errorHandler, event)
-        else
-            log('nil handler')
-        end
+function call_handlers(l, event)
+    while l do
+        xpcall(l.value, errorHandler, event)
+        l=l.next
     end
 end
 
@@ -95,13 +82,10 @@ function Public.add(event_name, handler)
     end
     local handlers = event_handlers[event_name]
     if not handlers then
-        event_handlers[event_name] = { handler }
+        event_handlers[event_name] = { value = handler, next = nil }
         script_on_event(event_name, on_event)
     else
-        table.insert(handlers, handler)
-        if #handlers == 1 then
-            script_on_event(event_name, on_event)
-        end
+        event_handlers[event_name] = { value = handler, next = event_handlers[event_name] }
     end
 end
 
@@ -109,13 +93,10 @@ end
 function Public.on_init(handler)
     local handlers = event_handlers[init_event_name]
     if not handlers then
-        event_handlers[init_event_name] = { handler }
+        event_handlers[init_event_name] = { value = handler, next = nil }
         script.on_init(on_init)
     else
-        table.insert(handlers, handler)
-        if #handlers == 1 then
-            script.on_init(on_init)
-        end
+        event_handlers[init_event_name] = { value = handler, next = handlers }
     end
 end
 
@@ -123,13 +104,10 @@ end
 function Public.on_load(handler)
     local handlers = event_handlers[load_event_name]
     if not handlers then
-        event_handlers[load_event_name] = { handler }
+        event_handlers[load_event_name] = { value = handler, next = nil }
         script.on_load(on_load)
     else
-        table.insert(handlers, handler)
-        if #handlers == 1 then
-            script.on_load(on_load)
-        end
+        event_handlers[load_event_name] = { value = handler, next = nil }
     end
 end
 

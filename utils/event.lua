@@ -80,6 +80,21 @@ local function remove(tbl, handler)
     end
 end
 
+local function remove_handler(event_name, handler)
+    local l = event_handlers[event_name]
+    if l.value == handler then
+        event_handlers[event_name] = l.next
+    else
+        while l do
+            local prev = l
+            l = l.next
+            if l.value == handler then
+                prev.next = l.next
+            end
+        end
+    end
+end
+
 ---Register a handler for the event_name event, can only be used during control, init or load cycles.</br>
 ---Handlers added with Event.add cannot be removed.</br>
 ---For handlers that need to be removed or added at runtime use Event.add_removable.
@@ -194,12 +209,11 @@ function Event.remove_removable(event_name, token)
     end
 
     local handler = Token.get(token)
-    local handlers = event_handlers[event_name]
 
     remove(tokens, token)
-    remove(handlers, handler)
+    remove_handler(event_name, handler)
 
-    if #handlers == 0 then
+    if event_handlers[event_name] == nil then
         script_on_event(event_name, nil)
     end
 end
@@ -314,11 +328,11 @@ function Event.remove_removable_function(event_name, name)
         if n == event_name then
             local f = v.handler
             function_handlers[name][k] = nil
-            remove(handlers, f)
+            remove_handler(event_name, f)
         end
     end
 
-    if #handlers == 0 then
+    if event_handlers[event_name] == nil then
         script_on_event(event_name, nil)
     end
 
@@ -368,7 +382,7 @@ function Event.remove_removable_nth_tick(tick, token)
     local handlers = on_nth_tick_event_handlers[tick]
 
     remove(tokens, token)
-    remove(handlers, handler)
+    remove_handler(event_name, handler)
 
     if #handlers == 0 then
         script_on_nth_tick(tick, nil)
