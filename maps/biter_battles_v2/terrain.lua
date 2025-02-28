@@ -152,6 +152,7 @@ local loot_blacklist = {
 }
 
 function Public.adjust_map_gen_settings(map_gen_settings)
+    map_gen_settings.default_enable_all_autoplace_controls = false
     map_gen_settings.starting_area = 2.5
     map_gen_settings.property_expression_names = {
         ['segmentation_multiplier'] = 0.1,
