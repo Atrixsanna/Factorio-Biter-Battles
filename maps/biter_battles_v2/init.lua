@@ -191,7 +191,6 @@ function Public.playground_surface()
     storage.next_map_seed = 1
     Terrain.adjust_map_gen_settings(map_gen_settings)
     local surface = game.create_surface(storage.bb_surface_name, map_gen_settings)
-    game.planets.nauvis2.associate_surface(surface)
 
     surface.brightness_visual_weights = { -1.17, -0.975, -0.52 }
 end
