@@ -891,6 +891,7 @@ function Public.generate_new_map()
     game.reset_time_played()
     storage.server_restart_timer = nil
     game.delete_surface(prev_surface)
+    game.planets.nauvis2.associate_surface(game.surfaces[storage.bb_surface_name])
     start_map_reroll()
 end
 

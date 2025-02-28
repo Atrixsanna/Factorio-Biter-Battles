@@ -191,6 +191,8 @@ function Public.playground_surface()
     storage.next_map_seed = 1
     Terrain.adjust_map_gen_settings(map_gen_settings)
     local surface = game.create_surface(storage.bb_surface_name, map_gen_settings)
+    game.planets.nauvis2.associate_surface(surface)
+
     surface.brightness_visual_weights = { -1.17, -0.975, -0.52 }
 end
 
@@ -467,6 +469,14 @@ function Public.forces()
     f.share_chart = false
 
     for _, force in pairs(game.forces) do
+        game.forces[force.name].lock_space_location("nauvis")
+        game.forces[force.name].lock_space_location("gleba")
+        game.forces[force.name].lock_space_location("vulcanus")
+        game.forces[force.name].lock_space_location("fulgora")
+        game.forces[force.name].lock_space_location("aquilo")
+        game.forces[force.name].lock_space_location("solar-system-edge")
+        game.forces[force.name].lock_space_location("shattered-planet")
+        game.forces[force.name].unlock_space_location("nauvis2")
         game.forces[force.name].technologies['planet-discovery-fulgora'].enabled = false
         game.forces[force.name].technologies['planet-discovery-gleba'].enabled = false
         game.forces[force.name].technologies['planet-discovery-vulcanus'].enabled = false
