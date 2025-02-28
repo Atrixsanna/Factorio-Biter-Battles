@@ -1478,6 +1478,9 @@ function Public.deny_enemy_side_ghosts(event)
     if not e.valid then
         return
     end
+    if e.surface.name ~= storage.bb_surface_name then
+        return
+    end
     if e.type == 'entity-ghost' or e.type == 'tile-ghost' then
         local player = game.get_player(event.player_index)
         local force = player.force.name
