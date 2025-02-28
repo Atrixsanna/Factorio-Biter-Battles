@@ -156,26 +156,115 @@ function Public.adjust_map_gen_settings(map_gen_settings)
     map_gen_settings.starting_area = 2.5
     map_gen_settings.property_expression_names = {
         ['segmentation_multiplier'] = 0.1,
+        ["entity:tungsten-ore:probability"] = "vulcanus_tungsten_ore_probability",
+        ["entity:tungsten-ore:richness"] = "vulcanus_tungsten_ore_richness",
+        ["entity:calcite:probability"] = "vulcanus_calcite_probability",
+        ["entity:calcite:richness"] = "vulcanus_calcite_richness",
     }
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
     map_gen_settings.autoplace_controls = {
         ['coal'] = { frequency = 6.5, size = 0.34, richness = 0.24 },
-        ['water'] = {
-            frequency = 10,
-            size = 0.3,
-            richness = 0.1,
-        },
         ['stone'] = { frequency = 6, size = 0.385, richness = 0.25 },
         ['copper-ore'] = { frequency = 8.05, size = 0.352, richness = 0.35 },
         ['iron-ore'] = { frequency = 8.5, size = 0.8, richness = 0.23 },
         ['uranium-ore'] = { frequency = 2.2, size = 1, richness = 1 },
         ['crude-oil'] = { frequency = 8, size = 1.4, richness = 0.45 },
-        ['trees'] = {
-            frequency = 0.65,
-            size = 0.04,
-            richness = 0.002,
-        },
+        ['water'] = { frequency = 10, size = 0.3 },
+        ['trees'] = { frequency = 0.65, size = 0.04 },
         ['enemy-base'] = { frequency = 0, size = 0, richness = 0 },
+        ['gleba_plants'] = { frequency = 0.65, size = 0.3 },
+        ['tungsten_ore'] = { frequency = 6, size = 0.385, richness = 0.25 },
+        ['calcite'] = { frequency = 0.2, size = 0.8, richness = 0.25 },
+    }
+    map_gen_settings.autoplace_settings =
+    {
+      ["tile"] =
+      {
+        settings =
+        {
+          ["grass-1"] = {},
+          ["grass-2"] = {},
+          ["grass-3"] = {},
+          ["grass-4"] = {},
+          ["dry-dirt"] = {},
+          ["dirt-1"] = {},
+          ["dirt-2"] = {},
+          ["dirt-3"] = {},
+          ["dirt-4"] = {},
+          ["dirt-5"] = {},
+          ["dirt-6"] = {},
+          ["dirt-7"] = {},
+          ["sand-1"] = {},
+          ["sand-2"] = {},
+          ["sand-3"] = {},
+          ["red-desert-0"] = {},
+          ["red-desert-1"] = {},
+          ["red-desert-2"] = {},
+          ["red-desert-3"] = {},
+          ["water"] = {},
+          ["deepwater"] = {},
+        }
+      },
+      ["decorative"] =
+      {
+        settings =
+        {
+          ["brown-hairy-grass"] = {},
+          ["green-hairy-grass"] = {},
+          ["brown-carpet-grass"] = {},
+          ["green-carpet-grass"] = {},
+          ["green-small-grass"] = {},
+          ["green-asterisk"] = {},
+          ["brown-asterisk-mini"] = {},
+          ["green-asterisk-mini"] = {},
+          ["brown-asterisk"] = {},
+          ["red-asterisk"] = {},
+          ["dark-mud-decal"] = {},
+          ["light-mud-decal"] = {},
+          ["cracked-mud-decal"] = {},
+          ["red-desert-decal"] = {},
+          ["sand-decal"] = {},
+          ["sand-dune-decal"] = {},
+          ["green-pita"] = {},
+          ["red-pita"] = {},
+          ["green-croton"] = {},
+          ["red-croton"] = {},
+          ["green-pita-mini"] = {},
+          ["brown-fluff"] = {},
+          ["brown-fluff-dry"] = {},
+          ["green-desert-bush"] = {},
+          ["red-desert-bush"] = {},
+          ["white-desert-bush"] = {},
+          ["garballo-mini-dry"] = {},
+          ["garballo"] = {},
+          ["green-bush-mini"] = {},
+          ["medium-rock"] = {},
+          ["small-rock"] = {},
+          ["tiny-rock"] = {},
+          ["medium-sand-rock"] = {},
+          ["small-sand-rock"] = {}
+        }
+      },
+      ["entity"] =
+      {
+        settings =
+        {
+          ["iron-ore"] = {},
+          ["copper-ore"] = {},
+          ["stone"] = {},
+          ["coal"] = {},
+          ["crude-oil"] = {},
+          ["uranium-ore"] = {},
+          ["fish"] = {},
+          ["big-sand-rock"] = {},
+          ["huge-rock"] = {},
+          ["big-rock"] = {},
+          ["calcite"] = {},
+          ["tungsten-ore"] = {},
+          ["iron-stromatolite"] = {},
+          ["copper-stromatolite"] = {},
+        }
+      }
     }
     mixed_ore_map_special.adjust_map_gen_settings(map_gen_settings)
 end
