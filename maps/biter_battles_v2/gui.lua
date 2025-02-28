@@ -998,18 +998,6 @@ function join_team(player, force_name, forced_join, auto_join)
                 )
                 return
             end
-            if
-                storage.spectator_rejoin_delay[player.name]
-                and game.tick - storage.spectator_rejoin_delay[player.name] < 3600
-            then
-                player.print(
-                    'Not ready to return to your team yet. Please wait '
-                        .. 60 - (math_floor((game.tick - storage.spectator_rejoin_delay[player.name]) / 60))
-                        .. ' seconds.',
-                    { color = { r = 0.98, g = 0.66, b = 0.22 } }
-                )
-                return
-            end
         end
         local p = nil
         local p_data = get_player_data(player)
