@@ -838,6 +838,7 @@ end
 local function populate_biter_area(surface, chunk_pos, rng, is_biter_area_chunk)
     local spitter_spawner_template = { name = 'spitter-spawner', position = { 0, 0 }, force = 'north_biters' }
     local biter_spawner_template = { name = 'biter-spawner', position = { 0, 0 }, force = 'north_biters' }
+    local gleba_spawner_template = { name = 'gleba-spawner-small', position = { 0, 0 }, force = 'north_biters' }
     local worm_turret_template = { name = '', position = { 0, 0 }, force = 'north_biters' }
 
     local left_top_x = chunk_pos.x * 32
@@ -854,8 +855,12 @@ local function populate_biter_area(surface, chunk_pos, rng, is_biter_area_chunk)
         spitter_spawner_template.position[1], spitter_spawner_template.position[2] = x, y
         if (is_biter_area_chunk or is_biter_area(seed, x, y)) and can_place_entity(spitter_spawner_template) then
             local e
-            if rng(1, 4) == 1 then
+            local r = rng(1, 5)
+            if r == 1 then
                 e = create_entity(spitter_spawner_template)
+            elseif r == 2 then
+                gleba_spawner_template.position[1], gleba_spawner_template.position[2] = x, y
+                e = create_entity(gleba_spawner_template)
             else
                 biter_spawner_template.position[1], biter_spawner_template.position[2] = x, y
                 e = create_entity(biter_spawner_template)
