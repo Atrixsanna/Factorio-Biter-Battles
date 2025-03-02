@@ -171,6 +171,11 @@ function Public.adjust_map_gen_settings(map_gen_settings)
                                     input_scale = 0.0001,\z
                                     output_scale = 0.0004}",
         -- fulgora/scrap
+        -- gleba
+        moisture = "gleba_moisture",
+        ["control:gleba_plants:size"] = 10,
+        ["control:gleba_water:frequency"] = 0.01,
+        ["control:gleba_water:size"] = 0.01,
     }
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
     map_gen_settings.autoplace_controls = {
@@ -216,8 +221,13 @@ function Public.adjust_map_gen_settings(map_gen_settings)
           ["red-desert-1"] = {},
           ["red-desert-2"] = {},
           ["red-desert-3"] = {},
-          ["water"] = {},
-          ["deepwater"] = {},
+          --["water"] = {},
+          --["deepwater"] = {},
+          -- gleba
+          ["natural-yumako-soil"] = {},
+          ["natural-jellynut-soil"] = {},
+          ["wetland-yumako"] = {},
+          --["wetland-jellynut"] = {},
         }
       },
       ["decorative"] =
