@@ -156,10 +156,21 @@ function Public.adjust_map_gen_settings(map_gen_settings)
     map_gen_settings.starting_area = 2.5
     map_gen_settings.property_expression_names = {
         ['segmentation_multiplier'] = 0.1,
+        -- vulcanus/tungsten
         ["entity:tungsten-ore:probability"] = "vulcanus_tungsten_ore_probability",
         ["entity:tungsten-ore:richness"] = "vulcanus_tungsten_ore_richness",
         ["entity:calcite:probability"] = "vulcanus_calcite_probability",
         ["entity:calcite:richness"] = "vulcanus_calcite_richness",
+        aux = "vulcanus_aux",
+        vulcanus_rock_noise = "multioctave_noise{x = x,\z
+                                    y = y,\z
+                                    seed0 = map_seed,\z
+                                    seed1 = 137,\z
+                                    octaves = 4,\z
+                                    persistence = 0.00065,\z
+                                    input_scale = 0.0001,\z
+                                    output_scale = 0.0004}",
+        -- fulgora/scrap
     }
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
     map_gen_settings.autoplace_controls = {
@@ -172,9 +183,13 @@ function Public.adjust_map_gen_settings(map_gen_settings)
         ['water'] = { frequency = 10, size = 0.3 },
         ['trees'] = { frequency = 0.65, size = 0.04 },
         ['enemy-base'] = { frequency = 0, size = 0, richness = 0 },
+        -- gleba
         ['gleba_plants'] = { frequency = 0.65, size = 0.3 },
+        -- vulcanus/tungsten
         ['tungsten_ore'] = { frequency = 6, size = 0.385, richness = 0.25 },
         ['calcite'] = { frequency = 0.2, size = 0.8, richness = 0.25 },
+        -- fulgora/scrap
+        ["scrap"] = {},
     }
     map_gen_settings.autoplace_settings =
     {
@@ -263,6 +278,10 @@ function Public.adjust_map_gen_settings(map_gen_settings)
           ["tungsten-ore"] = {},
           ["iron-stromatolite"] = {},
           ["copper-stromatolite"] = {},
+          -- vulcanus/tungsten
+          ['big-volcanic-rock'] = {},
+          -- fulgora/scrap
+          ["scrap"] = {},
         }
       }
     }
