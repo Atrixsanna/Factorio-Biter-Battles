@@ -173,9 +173,12 @@ function Public.adjust_map_gen_settings(map_gen_settings)
         -- fulgora/scrap
         -- gleba
         moisture = "gleba_moisture",
-        ["control:gleba_plants:size"] = 10,
-        ["control:gleba_water:frequency"] = 0.01,
-        ["control:gleba_water:size"] = 0.01,
+        elevation = "gleba_elevation",
+        gleba_spawner = 0,
+        ["control:gleba_plants:size"] = 0.1,
+        ["control:gleba_water:frequency"] = 0.0001,
+        ["control:gleba_water:size"] = 0.1,
+        ['control:gleba_enemy_base:frequency'] = 1,
     }
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
     map_gen_settings.autoplace_controls = {
@@ -190,6 +193,8 @@ function Public.adjust_map_gen_settings(map_gen_settings)
         ['enemy-base'] = { frequency = 0, size = 0, richness = 0 },
         -- gleba
         ['gleba_plants'] = { frequency = 0.65, size = 0.3 },
+        ["gleba_water"] = {},
+        ['gleba_enemy_base'] = {},
         -- vulcanus/tungsten
         ['tungsten_ore'] = { frequency = 6, size = 0.385, richness = 0.25 },
         ['calcite'] = { frequency = 0.2, size = 0.8, richness = 0.25 },
