@@ -72,6 +72,10 @@ function Public.calc_feed_effects(initial_evo, food_value, num_flasks, current_p
     }
 end
 
+local function starts_with(str, start)
+   return str:sub(1, #start) == start
+end
+
 -- Player can be nil
 ---@param params string
 ---@param difficulty_vote_value number
@@ -162,6 +166,15 @@ function Public.calc_send_command(
                 end
                 if v == 'white' or v == 'space' then
                     v = 'space-science-pack'
+                end
+                if v == 'orange' or v == 'vulcanus' or v == 'metallurgic' then
+                    v = 'metallurgic-science-pack'
+                end
+                if v == 'pink' or v == 'fulgora' or v == 'electromagnetic' then
+                    v = 'electromagnetic-science-pack'
+                end
+                if v == 'lime' or v == 'gleba' or starts_with(v, 'ag') then
+                    v = 'agricultural-science-pack'
                 end
                 local values = Tables.food_values[v]
                 if values == nil then

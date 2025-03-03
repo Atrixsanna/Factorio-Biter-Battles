@@ -39,6 +39,9 @@ Public.food_values = {
     ['production-science-pack'] = { value = 0.1050, name = 'production science', color = '150, 25, 255' },
     ['utility-science-pack'] = { value = 0.1680, name = 'utility science', color = '210, 210, 60' },
     ['space-science-pack'] = { value = 0.3500, name = 'space science', color = '255, 255, 255' },
+    ['metallurgic-science-pack'] = { value = 0.0010, name = 'metallurgic science', color = '255, 165, 0' },
+    ['electromagnetic-science-pack'] = { value = 0.0011, name = 'electromagnetic science', color = '255, 192, 203' },
+    ['agricultural-science-pack'] = { value = 0.0012, name = 'agricultural science', color = '192, 255, 0' },
 }
 
 Public.gui_foods = {}
@@ -76,6 +79,9 @@ Public.food_names = {
     ['production-science-pack'] = true,
     ['utility-science-pack'] = true,
     ['space-science-pack'] = true,
+    ['metallurgic-science-pack'] = true,
+    ['electromagnetic-science-pack'] = true,
+    ['agricultural-science-pack'] = true,
 }
 
 Public.food_long_and_short = {
@@ -86,6 +92,9 @@ Public.food_long_and_short = {
     [5] = { short_name = 'production', long_name = 'production-science-pack' },
     [6] = { short_name = 'utility', long_name = 'utility-science-pack' },
     [7] = { short_name = 'space', long_name = 'space-science-pack' },
+    [8] = { short_name = 'vulcanus', long_name = 'metallurgic-science-pack' },
+    [9] = { short_name = 'fulgora', long_name = 'electromagnetic-science-pack' },
+    [10] = { short_name = 'gleba', long_name = 'agricultural-science-pack' },
 }
 
 Public.food_long_to_short = {
@@ -96,6 +105,9 @@ Public.food_long_to_short = {
     ['production-science-pack'] = { short_name = 'production', indexScience = 5 },
     ['utility-science-pack'] = { short_name = 'utility', indexScience = 6 },
     ['space-science-pack'] = { short_name = 'space', indexScience = 7 },
+    ['metallurgic-science-pack'] = { short_name = 'vulcanus', indexScience = 8 },
+    ['electromagnetic-science-pack'] = { short_name = 'fulgora', indexScience = 9 },
+    ['agricultural-science-pack'] = { short_name = 'gleba', indexScience = 10 },
 }
 
 -- This array contains parameters for spawn area ore patches.
@@ -250,6 +262,9 @@ Public.food_value_table_version = {
     Public.food_values['production-science-pack'].value,
     Public.food_values['utility-science-pack'].value,
     Public.food_values['space-science-pack'].value,
+    Public.food_values['metallurgic-science-pack'].value,
+    Public.food_values['electromagnetic-science-pack'].value,
+    Public.food_values['agricultural-science-pack'].value,
 }
 
 return Public
