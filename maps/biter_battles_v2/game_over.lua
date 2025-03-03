@@ -891,6 +891,12 @@ function Public.generate_new_map()
     game.reset_time_played()
     storage.server_restart_timer = nil
     game.delete_surface(prev_surface)
+    for _, p in pairs(game.forces.north.platforms) do
+        p.destroy()
+    end
+    for _, p in pairs(game.forces.south.platforms) do
+        p.destroy()
+    end
     start_map_reroll()
 end
 
@@ -906,7 +912,10 @@ function Public.automatic_captain_draw_buttons(event)
 end
 
 function Public.on_surface_deleted(event)
-    game.planets.nauvis2.associate_surface(game.surfaces[storage.bb_surface_name])
+    local s = game.surfaces[storage.bb_surface_name]
+    if s.planet == nil then
+        game.planets.nauvis2.associate_surface(s)
+    end
 end
 
 Event.add(defines.events.on_console_chat, chat_with_everyone)
