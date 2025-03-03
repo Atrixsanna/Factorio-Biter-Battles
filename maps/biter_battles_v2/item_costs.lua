@@ -176,6 +176,9 @@ function get_product_info_uncached(product, recipes, cache)
         return raw_cost
     end
     local recipe = recipes[product]
+    if product == 'pentapod-egg' then
+        return empty_product_info()
+    end
     if not recipe then
         if product ~= 'wood' and product ~= 'raw-fish' then
             game.print('No simple recipe for ' .. product .. ' assuming zero cost')
@@ -227,34 +230,20 @@ end
 
 ---@return table<string, ProductInfo>
 local function find_all_costs()
-    local force = game.forces['spectator']
-    local recipes = force.recipes
+    local recipes = game.forces.spectator.recipes
     local simple_recipes = {}
     local all_items = {}
     for _, recipe in pairs(recipes) do
-        local products = recipe.products
-        if #products == 1 and (products[1].name == recipe.name or not simple_recipes[products[1].name]) then
-            simple_recipes[products[1].name] = recipe
-        end
-        for _, product in pairs(products) do
-            all_items[product.name] = true
+        if recipe.hidden == false and recipe.prototype.is_parameter == false then
+            local products = recipe.products
+            if #products == 1 and products[1].name == recipe.name then
+                simple_recipes[products[1].name] = recipe
+            end
+            for _, product in pairs(products) do
+                all_items[product.name] = true
+            end
         end
     end
-    simple_recipes['space-science-pack'] = {
-        ingredients = { { name = 'rocket-part', amount = 100 }, { name = 'satellite', amount = 1 } },
-        products = { { name = 'space-science-pack', amount = 1000 } },
-        energy = 14.833 + 19.367 + 6.133, -- Time to launch rocket
-    }
-    all_items['space-science-pack'] = true
-    simple_recipes['rocket-part'] = {
-        ingredients = {
-            { name = 'low-density-structure', amount = 10 },
-            { name = 'rocket-fuel', amount = 10 },
-            { name = 'processing-unit', amount = 10 },
-        },
-        products = { { name = 'rocket-part', amount = 1 } },
-        energy = 3, -- Time to craft one rocket part
-    }
     local result = {}
     local cache = initial_product_infos()
     for item, _ in pairs(all_items) do
