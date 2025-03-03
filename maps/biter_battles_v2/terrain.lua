@@ -197,7 +197,7 @@ function Public.adjust_map_gen_settings(map_gen_settings)
         ['gleba_enemy_base'] = {},
         -- vulcanus/tungsten
         ['tungsten_ore'] = { frequency = 6, size = 0.385, richness = 0.25 },
-        ['calcite'] = { frequency = 0.2, size = 0.8, richness = 0.25 },
+        ['calcite'] = { frequency = 0.2, size = 0.1, richness = 0.25 },
         -- fulgora/scrap
         ["scrap"] = {},
     }
