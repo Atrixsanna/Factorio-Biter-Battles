@@ -42,6 +42,7 @@ Public.food_values = {
     ['metallurgic-science-pack'] = { value = 0.0010, name = 'metallurgic science', color = '255, 165, 0' },
     ['electromagnetic-science-pack'] = { value = 0.0011, name = 'electromagnetic science', color = '255, 192, 203' },
     ['agricultural-science-pack'] = { value = 0.0012, name = 'agricultural science', color = '192, 255, 0' },
+    ['cryogenic-science-pack'] = { value = 0.0013, name = 'cryogenic science', color = '0, 0, 139' },
 }
 
 Public.gui_foods = {}
@@ -82,6 +83,7 @@ Public.food_names = {
     ['metallurgic-science-pack'] = true,
     ['electromagnetic-science-pack'] = true,
     ['agricultural-science-pack'] = true,
+    ['cryogenic-science-pack'] = true,
 }
 
 Public.food_long_and_short = {
@@ -95,6 +97,7 @@ Public.food_long_and_short = {
     [8] = { short_name = 'vulcanus', long_name = 'metallurgic-science-pack' },
     [9] = { short_name = 'fulgora', long_name = 'electromagnetic-science-pack' },
     [10] = { short_name = 'gleba', long_name = 'agricultural-science-pack' },
+    [11] = { short_name = 'aquilo', long_name = 'cryogenic-science-pack' },
 }
 
 Public.food_long_to_short = {
@@ -108,6 +111,7 @@ Public.food_long_to_short = {
     ['metallurgic-science-pack'] = { short_name = 'vulcanus', indexScience = 8 },
     ['electromagnetic-science-pack'] = { short_name = 'fulgora', indexScience = 9 },
     ['agricultural-science-pack'] = { short_name = 'gleba', indexScience = 10 },
+    ['cryogenic-science-pack'] = { short_name = 'aquilo', indexScience = 11 },
 }
 
 -- This array contains parameters for spawn area ore patches.
@@ -265,6 +269,7 @@ Public.food_value_table_version = {
     Public.food_values['metallurgic-science-pack'].value,
     Public.food_values['electromagnetic-science-pack'].value,
     Public.food_values['agricultural-science-pack'].value,
+    Public.food_values['cryogenic-science-pack'].value,
 }
 
 return Public

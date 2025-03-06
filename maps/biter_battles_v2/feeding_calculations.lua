@@ -176,6 +176,9 @@ function Public.calc_send_command(
                 if v == 'lime' or v == 'gleba' or starts_with(v, 'ag') then
                     v = 'agricultural-science-pack'
                 end
+                if v == 'aquilo' or starts_with(v, 'cr') then
+                    v = 'cryogenic-science-pack'
+                end
                 local values = Tables.food_values[v]
                 if values == nil then
                     error_msg = 'Invalid science pack color'
