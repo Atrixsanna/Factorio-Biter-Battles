@@ -109,6 +109,7 @@ local create_gulag_surface = function()
         local tiles = {}
         pcall(function()
             surface = game.create_surface('gulag', {
+                default_enable_all_autoplace_controls = false,
                 autoplace_controls = {
                     ['coal'] = { frequency = 23, size = 3, richness = 3 },
                     ['stone'] = { frequency = 20, size = 3, richness = 3 },
