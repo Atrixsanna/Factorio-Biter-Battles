@@ -419,6 +419,7 @@ function Public.forces()
     f.set_friend('south', true)
     f.set_friend('player', true)
     f.set_friend('spectator', true)
+    f.set_friend('enemy', true)
     f.share_chart = false
 
     local f = game.forces['south_biters']
@@ -428,6 +429,7 @@ function Public.forces()
     f.set_friend('north', true)
     f.set_friend('player', true)
     f.set_friend('spectator', true)
+    f.set_friend('enemy', true)
     f.share_chart = false
 
     local f = game.forces['north_biters_boss']
@@ -437,6 +439,7 @@ function Public.forces()
     f.set_friend('south', true)
     f.set_friend('player', true)
     f.set_friend('spectator', true)
+    f.set_friend('enemy', true)
     f.share_chart = false
 
     local f = game.forces['south_biters_boss']
@@ -446,6 +449,7 @@ function Public.forces()
     f.set_friend('north', true)
     f.set_friend('player', true)
     f.set_friend('spectator', true)
+    f.set_friend('enemy', true)
     f.share_chart = false
 
     local f = game.forces['spectator']
@@ -466,6 +470,12 @@ function Public.forces()
     f.set_cease_fire('north', true)
     f.set_cease_fire('south', true)
     f.share_chart = false
+
+    local f = game.forces['enemy']
+    f.set_friend('north_biters', true)
+    f.set_friend('south_biters', true)
+    f.set_friend('north_biters_boss', true)
+    f.set_friend('south_biters_boss', true)
 
     for _, force in pairs(game.forces) do
         game.forces[force.name].lock_space_location("nauvis")
