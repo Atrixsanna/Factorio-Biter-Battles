@@ -152,154 +152,23 @@ local loot_blacklist = {
 }
 
 function Public.adjust_map_gen_settings(map_gen_settings)
-    map_gen_settings.default_enable_all_autoplace_controls = false
+--     map_gen_settings.default_enable_all_autoplace_controls = false
     map_gen_settings.starting_area = 2.5
-    map_gen_settings.property_expression_names = {
-        ['segmentation_multiplier'] = 0.1,
-        -- vulcanus/tungsten
-        ["entity:tungsten-ore:probability"] = "vulcanus_tungsten_ore_probability",
-        ["entity:tungsten-ore:richness"] = "vulcanus_tungsten_ore_richness",
-        ["entity:calcite:probability"] = "vulcanus_calcite_probability",
-        ["entity:calcite:richness"] = "vulcanus_calcite_richness",
-        aux = "vulcanus_aux",
-        vulcanus_rock_noise = "multioctave_noise{x = x,\z
-                                    y = y,\z
-                                    seed0 = map_seed,\z
-                                    seed1 = 137,\z
-                                    octaves = 4,\z
-                                    persistence = 0.00065,\z
-                                    input_scale = 0.0001,\z
-                                    output_scale = 0.0004}",
-        -- fulgora/scrap
-        -- gleba
-        moisture = "gleba_moisture",
-        elevation = "gleba_elevation",
-        gleba_spawner = 0,
-        ["control:gleba_plants:size"] = 0.1,
-        ["control:gleba_water:frequency"] = 0.0001,
-        ["control:gleba_water:size"] = 0.1,
-        ['control:gleba_enemy_base:frequency'] = 1,
-    }
+    local pen = map_gen_settings.property_expression_names
+    --pen['segmentation_multiplier'] = 0.1
+
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
-    map_gen_settings.autoplace_controls = {
-        ['coal'] = { frequency = 6.5, size = 0.34, richness = 0.24 },
-        ['stone'] = { frequency = 6, size = 0.385, richness = 0.25 },
-        ['copper-ore'] = { frequency = 8.05, size = 0.352, richness = 0.35 },
-        ['iron-ore'] = { frequency = 8.5, size = 0.8, richness = 0.23 },
-        ['uranium-ore'] = { frequency = 2.2, size = 1, richness = 1 },
-        ['crude-oil'] = { frequency = 8, size = 1.4, richness = 0.45 },
-        ['water'] = { frequency = 10, size = 0.3 },
-        ['trees'] = { frequency = 0.65, size = 0.04 },
-        ['enemy-base'] = { frequency = 0, size = 0, richness = 0 },
-        -- gleba
-        ['gleba_plants'] = { frequency = 0.65, size = 0.3 },
-        ["gleba_water"] = {},
-        ['gleba_enemy_base'] = {},
-        -- vulcanus/tungsten
-        ['tungsten_ore'] = { frequency = 6, size = 0.385, richness = 0.25 },
-        ['calcite'] = { frequency = 0.2, size = 0.1, richness = 0.25 },
-        -- fulgora/scrap
-        ["scrap"] = {},
-    }
-    map_gen_settings.autoplace_settings =
-    {
-      ["tile"] =
-      {
-        settings =
-        {
-          ["grass-1"] = {},
-          ["grass-2"] = {},
-          ["grass-3"] = {},
-          ["grass-4"] = {},
-          ["dry-dirt"] = {},
-          ["dirt-1"] = {},
-          ["dirt-2"] = {},
-          ["dirt-3"] = {},
-          ["dirt-4"] = {},
-          ["dirt-5"] = {},
-          ["dirt-6"] = {},
-          ["dirt-7"] = {},
-          ["sand-1"] = {},
-          ["sand-2"] = {},
-          ["sand-3"] = {},
-          ["red-desert-0"] = {},
-          ["red-desert-1"] = {},
-          ["red-desert-2"] = {},
-          ["red-desert-3"] = {},
-          --["water"] = {},
-          --["deepwater"] = {},
-          -- gleba
-          ["natural-yumako-soil"] = {},
-          ["natural-jellynut-soil"] = {},
-          ["wetland-yumako"] = {},
-          --["wetland-jellynut"] = {},
-        }
-      },
-      ["decorative"] =
-      {
-        settings =
-        {
-          ["brown-hairy-grass"] = {},
-          ["green-hairy-grass"] = {},
-          ["brown-carpet-grass"] = {},
-          ["green-carpet-grass"] = {},
-          ["green-small-grass"] = {},
-          ["green-asterisk"] = {},
-          ["brown-asterisk-mini"] = {},
-          ["green-asterisk-mini"] = {},
-          ["brown-asterisk"] = {},
-          ["red-asterisk"] = {},
-          ["dark-mud-decal"] = {},
-          ["light-mud-decal"] = {},
-          ["cracked-mud-decal"] = {},
-          ["red-desert-decal"] = {},
-          ["sand-decal"] = {},
-          ["sand-dune-decal"] = {},
-          ["green-pita"] = {},
-          ["red-pita"] = {},
-          ["green-croton"] = {},
-          ["red-croton"] = {},
-          ["green-pita-mini"] = {},
-          ["brown-fluff"] = {},
-          ["brown-fluff-dry"] = {},
-          ["green-desert-bush"] = {},
-          ["red-desert-bush"] = {},
-          ["white-desert-bush"] = {},
-          ["garballo-mini-dry"] = {},
-          ["garballo"] = {},
-          ["green-bush-mini"] = {},
-          ["medium-rock"] = {},
-          ["small-rock"] = {},
-          ["tiny-rock"] = {},
-          ["medium-sand-rock"] = {},
-          ["small-sand-rock"] = {}
-        }
-      },
-      ["entity"] =
-      {
-        settings =
-        {
-          ["iron-ore"] = {},
-          ["copper-ore"] = {},
-          ["stone"] = {},
-          ["coal"] = {},
-          ["crude-oil"] = {},
-          ["uranium-ore"] = {},
-          ["fish"] = {},
-          ["big-sand-rock"] = {},
-          ["huge-rock"] = {},
-          ["big-rock"] = {},
-          ["calcite"] = {},
-          ["tungsten-ore"] = {},
-          ["iron-stromatolite"] = {},
-          ["copper-stromatolite"] = {},
-          -- vulcanus/tungsten
-          ['big-volcanic-rock'] = {},
-          -- fulgora/scrap
-          ["scrap"] = {},
-        }
-      }
-    }
+
+    local ac = map_gen_settings.autoplace_controls
+    ac['coal'] = { frequency = 6.5, size = 0.34, richness = 0.24 }
+    ac['stone'] = { frequency = 6, size = 0.385, richness = 0.25 }
+    ac['copper-ore'] = { frequency = 8.05, size = 0.352, richness = 0.35 }
+    ac['iron-ore'] = { frequency = 8.5, size = 0.8, richness = 0.23 }
+    ac['uranium-ore'] = { frequency = 2.2, size = 1, richness = 1 }
+    ac['crude-oil'] = { frequency = 8, size = 1.4, richness = 0.45 }
+    ac['water'] = { frequency = 10, size = 0.3 }
+    ac['trees'] = { frequency = 0.65, size = 0.04 }
+    ac['enemy-base'] = { frequency = 0, size = 0, richness = 0 }
     mixed_ore_map_special.adjust_map_gen_settings(map_gen_settings)
 end
 

@@ -185,7 +185,7 @@ end
 
 --Terrain Playground Surface
 function Public.playground_surface()
-    local map_gen_settings = {}
+    local map_gen_settings = game.planets.nauvis2.prototype.map_gen_settings
     map_gen_settings.seed = storage.next_map_seed
     -- reset next_map_seed for next round
     storage.next_map_seed = 1
