@@ -637,59 +637,6 @@ for x = -8, 8, 1 do
 end
 local size_of_scrap_vectors = #scrap_vectors
 
-local function populate_with_extra_worm_turrets(surface, chunk_pos, rng)
-    local worm_template = { name = '', position = { 0, 0 }, force = 'north_biters' }
-    local scrap_template = { name = '', position = { 0, 0 }, force = 'neutral', create_build_effect_smoke = false }
-
-    local left_top_x = chunk_pos.x * 32
-    local left_top_y = chunk_pos.y * 32
-
-    local chunk_distance_to_center = math_sqrt(left_top_x ^ 2 + left_top_y ^ 2)
-    if bb_config.bitera_area_distance > chunk_distance_to_center then
-        return
-    end
-
-    local amount = (chunk_distance_to_center - bb_config.bitera_area_distance) * 0.0005
-    if amount < 0 then
-        return
-    end
-    local floor_amount = math_floor(amount)
-    local r = math.round(amount - floor_amount, 3) * 1000
-    if rng(0, 999) <= r then
-        floor_amount = floor_amount + 1
-    end
-
-    if floor_amount > 64 then
-        floor_amount = 64
-    end
-
-    local find_non_colliding_position = surface.find_non_colliding_position
-    local create_entity = surface.create_entity
-    for _ = 1, floor_amount, 1 do
-        local worm_turret_name = biter_raffle_roll('worm', chunk_distance_to_center * 0.00015)
-        local v = chunk_tile_vectors[rng(1, size_of_chunk_tile_vectors)]
-        local position = find_non_colliding_position(worm_turret_name, { left_top_x + v[1], left_top_y + v[2] }, 8, 1)
-        if position then
-            worm_template.name = worm_turret_name
-            worm_template.position = position
-            local worm = create_entity(worm_template)
-
-            -- add some scrap
-            for _ = 1, rng(0, 4), 1 do
-                local vector = scrap_vectors[rng(1, size_of_scrap_vectors)]
-                local position = { worm.position.x + vector[1], worm.position.y + vector[2] }
-                local name = wrecks[rng(1, size_of_wrecks)]
-                position = find_non_colliding_position(name, position, 16, 1)
-                if position then
-                    scrap_template.name = name
-                    scrap_template.position = position
-                    local e = create_entity(scrap_template)
-                end
-            end
-        end
-    end
-end
-
 ---@param x number
 ---@param y number
 ---@param seed number
@@ -984,8 +931,6 @@ function Public.generate(event)
     elseif chunk_variant == chunk_type.biter_area then
         generate_biter_area(surface, chunk_pos, rng)
     end
-
-    populate_with_extra_worm_turrets(surface, chunk_pos, rng)
 
     if profiler then
         profiler.stop()
