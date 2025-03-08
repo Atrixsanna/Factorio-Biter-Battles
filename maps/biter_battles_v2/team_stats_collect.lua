@@ -32,6 +32,11 @@ TeamStatsCollect.items_to_show_summaries_of = {
     { item = 'copper-plate' },
     { item = 'steel-plate', space_after = true },
 
+    { item = 'holmium-plate', hide_by_default = true },
+    { item = 'tungsten-carbide', hide_by_default = true },
+    { item = 'tungsten-plate', hide_by_default = true },
+    { item = 'bioflux', hide_by_default = true, space_after = true },
+
     { item = 'electronic-circuit', hide_by_default = true },
     { item = 'advanced-circuit', hide_by_default = true },
     { item = 'processing-unit', space_after = true, hide_by_default = true },
