@@ -1282,6 +1282,7 @@ function Public.restrict_landfill(surface, user, tiles)
             end
         elseif user ~= nil and not trusted[user.name] then
             surface.set_tiles({ { name = t.old_tile.name, position = t.position } }, true)
+            user.insert({ name = 'landfill', count = 1 })
             user.print(
                 'You have not grown accustomed to this technology yet.',
                 { color = { r = 0.22, g = 0.99, b = 0.99 } }
