@@ -155,12 +155,6 @@ function Public.adjust_map_gen_settings(map_gen_settings)
 --     map_gen_settings.default_enable_all_autoplace_controls = false
     map_gen_settings.starting_area = 2.5
     local pen = map_gen_settings.property_expression_names
-    --pen['segmentation_multiplier'] = 1
-    --pen["gleba_fertile_solid"] = "20 * abs(multioctave_noise{x = x, y = y, persistence = 0.7, seed0 = map_seed, seed1 = 2000000, octaves = 2, input_scale = 1/16})\z
-    --              * gleba_fertile_spots_coastal"
-    pen['gleba_fertile_spots_coastal'] = "1"
-    --pen["gleba_biome_mask_green"] = "aux > 0.5"
-    --pen["gleba_biome_mask_red"] = "aux < 0.5"
     pen['gleba_spawner'] = '0' -- only small egg rafts
 
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
