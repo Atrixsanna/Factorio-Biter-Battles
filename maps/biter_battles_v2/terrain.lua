@@ -156,6 +156,7 @@ function Public.adjust_map_gen_settings(map_gen_settings)
     map_gen_settings.starting_area = 2.5
     local pen = map_gen_settings.property_expression_names
     pen['gleba_spawner'] = '0' -- only small egg rafts
+    pen['control:gleba_water:size'] = "1"
 
     map_gen_settings.cliff_settings = { cliff_elevation_interval = 0, cliff_elevation_0 = 0 }
 
