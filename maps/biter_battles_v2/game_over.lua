@@ -848,7 +848,6 @@ function Public.generate_new_map()
     Init.tables()
     Init.playground_surface()
     Init.forces()
-    Init.draw_structures()
     BBGui.reset_tables_gui()
     Init.queue_reveal_map()
     Announce.announce_if_any()
@@ -890,6 +889,7 @@ function Public.on_surface_deleted(event)
     local s = game.surfaces[storage.bb_surface_name]
     if s.planet == nil then
         game.planets.nauvis2.associate_surface(s)
+        Init.draw_structures()
     end
 end
 
