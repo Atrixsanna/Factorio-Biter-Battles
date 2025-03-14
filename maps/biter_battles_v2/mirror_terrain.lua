@@ -22,7 +22,9 @@ local function clear_entities(surface, bb)
     })
 
     for _, object in pairs(objects) do
-        object.destroy()
+        if not object.name:find('demolisher') then
+            object.destroy()
+        end
     end
 end
 
