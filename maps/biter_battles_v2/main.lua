@@ -635,19 +635,6 @@ local function on_chunk_generated(event)
     -- do a request, but seems to work for the left top corner, maybe an api bug?
     surface.request_to_generate_chunks({ pos.x, -pos.y - 32 }, 0)
 
-    -- The game pregenerate tiles within a radius of 3 chunks from the generated chunk.
-    -- Bites can use these tiles for pathing.
-    -- This creates a problem that bites pathfinder can cross the river at the edge of the map.
-    -- To prevent this, divide the north and south land by drawing a strip of water on these pregenerated tiles.
-    if event.position.y >= 0 and event.position.y <= 3 then
-        for x = -3, 3 do
-            local chunk_pos = { x = event.position.x + x, y = 0 }
-            if not surface.is_chunk_generated(chunk_pos) then
-                Terrain.draw_water_for_river_ends(surface, chunk_pos)
-            end
-        end
-    end
-
     -- add decorations only after the south part of the island is generated
     if event.position.y == 0 and event.position.x == 1 and storage.bb_settings['new_year_island'] then
         Terrain.add_new_year_island_decorations(surface)
