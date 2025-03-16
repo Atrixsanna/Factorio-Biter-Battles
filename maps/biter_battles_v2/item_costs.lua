@@ -181,7 +181,6 @@ function get_product_info_uncached(product, recipes, cache)
     end
     if not recipe then
         if product ~= 'wood' and product ~= 'raw-fish' then
-            game.print('No simple recipe for ' .. product .. ' assuming zero cost')
             log('No simple recipe for ' .. product .. ' assuming zero cost')
         end
         return empty_product_info()
