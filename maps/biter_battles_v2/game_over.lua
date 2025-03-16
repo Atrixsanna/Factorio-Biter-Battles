@@ -47,8 +47,17 @@ local function silo_kaboom(entity)
     surface.create_entity({
         name = 'medium-demolisher',
         position = center_position,
+        direction = entity.force.name == 'north' and defines.direction.south or defines.direction.north,
         force = "enemy",
+    })
+
+    surface.create_entity({
+        name = 'atomic-rocket',
+        position = center_position,
+        force = force,
         source = center_position,
+        max_range = 1,
+        speed = 0.1,
         target = center_position
     })
 end
