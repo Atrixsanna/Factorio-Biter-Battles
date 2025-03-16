@@ -25,10 +25,6 @@ local brain = {
         "Check out the pinned messages at our discord's #learning channel",
         'for a link to one of many guides written by members of the community.',
     },
-    [6] = {
-        'Warning - Foul language will not be tolerated on this server',
-        'Repeated offenses will be met with a jail/ban',
-    },
 }
 
 local links = {
@@ -44,7 +40,6 @@ local links = {
     ['jail'] = brain[2],
     ['ban'] = brain[2],
     ['report'] = brain[2],
-    ['mod'] = brain[2],
     ['moderator'] = brain[2],
     ['scenario'] = brain[3],
     ['stealing'] = brain[2],
@@ -56,15 +51,6 @@ local links = {
     ['learn'] = brain[5],
     ['guide'] = brain[5],
     ['meta'] = brain[5],
-    ['asshole'] = brain[6],
-    ['bitch'] = brain[6],
-    ['cunt'] = brain[6],
-    ['fuck'] = brain[6],
-    ['fucking'] = brain[6],
-    ['idiot'] = brain[6],
-    ['moron'] = brain[6],
-    ['retard'] = brain[6],
-    ['stfu'] = brain[6],
 }
 
 local function on_player_created(event)
