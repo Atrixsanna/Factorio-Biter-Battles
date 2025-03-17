@@ -1275,7 +1275,7 @@ function Public.restrict_landfill(surface, user, tiles)
             if user ~= nil then
                 user.print('You can not landfill the river', { color = { r = 0.22, g = 0.99, b = 0.99 } })
             end
-        elseif user ~= nil and not trusted[user.name] then
+        elseif user ~= nil and not trusted[user.name] and (t.old_tile.name == 'deepwater' or t.old_tile.name == 'water') then
             surface.set_tiles({ { name = t.old_tile.name, position = t.position } }, true)
             user.insert({ name = 'landfill', count = 1 })
             user.print(
