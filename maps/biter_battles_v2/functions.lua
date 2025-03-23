@@ -404,6 +404,24 @@ function Functions.no_turret_creep(event)
     entity.destroy()
 end
 
+function Functions.deny_rail_support_in_river(event)
+    local entity = event.entity
+    if not entity.valid or not event.player_index then
+        return
+    end
+    if entity.name ~= 'rail-support' and entity.name ~= 'rail-ramp' then
+        return
+    end
+    local player = game.get_player(event.player_index)
+    if (player.force.name == 'north' and entity.position.y >= -Config.border_river_width / 3) or
+        (player.force.name == 'south' and entity.position.y <= Config.border_river_width / 3)
+    then
+        player.print('You can not build rails across the river', { color = { r = 0.22, g = 0.99, b = 0.99 } })
+        player.insert({ name = entity.name, count = 1 })
+        entity.destroy()
+    end
+end
+
 function Functions.no_landfill_by_untrusted_user(event, trusted_table)
     local entity = event.entity
     if not entity.valid or not event.player_index or entity.name ~= 'tile-ghost' or entity.ghost_name ~= 'landfill' then

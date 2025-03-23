@@ -384,6 +384,7 @@ local function on_built_entity(event)
     Functions.maybe_set_game_start_tick(event)
     Functions.no_landfill_by_untrusted_user(event, Session.get_trusted_table())
     Functions.no_turret_creep(event)
+    Functions.deny_rail_support_in_river(event)
     Terrain.deny_enemy_side_ghosts(event)
     AiTargets.start_tracking(event.entity)
 end
