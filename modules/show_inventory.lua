@@ -87,12 +87,6 @@ local function validate_player(player)
     if not player.valid then
         return false
     end
-    if not player.character then
-        return false
-    end
-    if not player.connected then
-        return false
-    end
     if not game.get_player(player.index) then
         return false
     end
@@ -144,6 +138,13 @@ end
 local function redraw_inventory(gui, source, target, caption, panel_type)
     gui.clear()
 
+    if not panel_type then
+        if gui and gui.valid then
+            gui.destroy()
+        end
+        return
+    end
+
     local items_table = gui.add({ type = 'table', column_count = 11 })
     local types = prototypes.item
 
@@ -166,27 +167,36 @@ local function redraw_inventory(gui, source, target, caption, panel_type)
             sprite = 'item/' .. opts.name,
             number = opts.count,
             name = opts.name,
-            tooltip = types[opts.name].localised_name,
+            tooltip = {'', (opts.quality == 'normal' and '' or {'', prototypes.quality[opts.quality].localised_name, ' '}), types[opts.name].localised_name},
             style = 'slot_button',
         })
         button.enabled = true
-        button.ignored_by_interaction = true
+        if opts.quality ~= 'normal' then
+            local qual_button = button.add({type = 'sprite-button', sprite = 'quality/' .. opts.quality, style = 'transparent_slot'})
+            qual_button.style.top_padding = 18
+            qual_button.style.right_padding = 18
+        end
 
         if caption == 'Armor' then
             local grid = target.character.get_inventory(defines.inventory.character_armor)[1].grid
             if grid then
                 local p_armor = grid.get_contents()
+                local grid_flow = items_table.add({ type = 'table', column_count = 10 })
                 for _, item in ipairs(p_armor) do
-                    local armor_gui = flow.add({
+                    local armor_gui = grid_flow.add({
                         type = 'sprite-button',
                         sprite = 'item/' .. item.name,
                         number = item.count,
-                        name = item.name,
-                        tooltip = types[opts.name].localised_name,
+                        name = item.name .. item.quality,
+                        tooltip = {'', (item.quality == 'normal' and '' or {'', prototypes.quality[item.quality].localised_name, ' '}), types[item.name].localised_name},
                         style = 'slot_button',
                     })
                     armor_gui.enabled = true
-                    armor_gui.ignored_by_interaction = true
+                    if item.quality ~= 'normal' then
+                        local qualgrid_button = armor_gui.add({type = 'sprite-button', sprite = 'quality/' .. item.quality, style = 'transparent_slot'})
+                        qualgrid_button.style.top_padding = 18
+                        qualgrid_button.style.right_padding = 18
+                    end
                 end
             end
         end
@@ -361,6 +371,10 @@ end
 
 local function on_pre_player_left_game(event)
     local player = game.get_player(event.player_index)
+    if not player or not this.data[player.index] then
+        return
+    end
+
     close_player_inventory(player)
 end
 
@@ -502,6 +516,8 @@ Event.add(defines.events.on_player_gun_inventory_changed, update_gui)
 Event.add(defines.events.on_player_ammo_inventory_changed, update_gui)
 Event.add(defines.events.on_player_armor_inventory_changed, update_gui)
 Event.add(defines.events.on_player_trash_inventory_changed, update_gui)
+Event.add(defines.events.on_player_placed_equipment, update_gui)
+Event.add(defines.events.on_player_removed_equipment, update_gui)
 Event.add(defines.events.on_gui_closed, gui_closed)
 Event.add(defines.events.on_gui_click, on_gui_click)
 Event.add(defines.events.on_pre_player_left_game, on_pre_player_left_game)
