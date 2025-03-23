@@ -590,8 +590,8 @@ end
 
 local function on_player_built_tile(event)
     local player = game.get_player(event.player_index)
-    if event.item ~= nil and event.item.name == 'landfill' then
-        Terrain.restrict_landfill(player.physical_surface, player, event.tiles)
+    if event.item ~= nil and (event.item.name == 'landfill' or event.item.name == 'foundation') then
+        Terrain.restrict_landfill(player.physical_surface, player, event.tiles, event.item)
     end
 end
 

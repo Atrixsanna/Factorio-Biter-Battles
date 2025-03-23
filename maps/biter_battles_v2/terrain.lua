@@ -1262,7 +1262,7 @@ function Public.minable_wrecks(entity, player)
 end
 
 --Landfill Restriction
-function Public.restrict_landfill(surface, user, tiles)
+function Public.restrict_landfill(surface, user, tiles, item)
     local seed = game.surfaces[storage.bb_surface_name].map_gen_settings.seed
     for _, t in pairs(tiles) do
         local check_position = t.position
@@ -1273,11 +1273,12 @@ function Public.restrict_landfill(surface, user, tiles)
         if is_horizontal_border_river(check_position.x, check_position.y, seed) then
             surface.set_tiles({ { name = t.old_tile.name, position = t.position } }, true)
             if user ~= nil then
+                user.insert({ name = item.name, count = 1 })
                 user.print('You can not landfill the river', { color = { r = 0.22, g = 0.99, b = 0.99 } })
             end
         elseif user ~= nil and not trusted[user.name] and (t.old_tile.name == 'deepwater' or t.old_tile.name == 'water') then
             surface.set_tiles({ { name = t.old_tile.name, position = t.position } }, true)
-            user.insert({ name = 'landfill', count = 1 })
+            user.insert({ name = item.name, count = 1 })
             user.print(
                 'You have not grown accustomed to this technology yet.',
                 { color = { r = 0.22, g = 0.99, b = 0.99 } }
@@ -1287,8 +1288,8 @@ function Public.restrict_landfill(surface, user, tiles)
 end
 
 function Public.deny_bot_landfill(event)
-    if event.item ~= nil and event.item.name == 'landfill' then
-        Public.restrict_landfill(event.robot.surface, nil, event.tiles)
+    if event.item ~= nil and (event.item.name == 'landfill' or event.item.name == 'foundation') then
+        Public.restrict_landfill(event.robot.surface, nil, event.tiles, event.item)
     end
 end
 
