@@ -49,6 +49,14 @@ local function silo_kaboom(entity)
         position = center_position,
         direction = entity.force.name == 'north' and defines.direction.south or defines.direction.north,
         force = "enemy",
+        quality = "legendary",
+    })
+    surface.create_entity({
+        name = 'small-demolisher',
+        position = center_position,
+        direction = entity.force.name == 'north' and defines.direction.south or defines.direction.north,
+        force = "enemy",
+        quality = "legendary",
     })
 
     surface.create_entity({
