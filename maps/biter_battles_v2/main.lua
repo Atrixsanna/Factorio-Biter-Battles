@@ -710,6 +710,7 @@ local function clear_corpses(cmd)
 end
 
 local function on_init()
+    storage.next_map_seed = game.surfaces[1].map_gen_settings.seed
     Init.tables()
     Init.initial_setup()
     Init.playground_surface()
