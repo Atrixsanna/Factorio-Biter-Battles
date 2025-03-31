@@ -8,7 +8,6 @@ local Functions = require('maps.biter_battles_v2.functions')
 local Game_over = require('maps.biter_battles_v2.game_over')
 local Gui = require('maps.biter_battles_v2.gui')
 local Init = require('maps.biter_battles_v2.init')
-local Mirror_terrain = require('maps.biter_battles_v2.mirror_terrain')
 local Muted = require('utils.muted')
 ---Disabled according to discord poll https://discord.com/channels/823696400797138974/823771211421974579/1241772236268896276
 -- local SimpleTags = require 'modules.simple_tags'
@@ -613,71 +612,11 @@ local function on_chunk_generated(event)
     local pos = event.area.left_top
     if pos.y < 0 then
         Terrain.generate(event)
-
-        -- If we mirror-clone chunk here it may cause entity truncation on a chunk border
-        -- duo to receiving chunk empty neighbors. Also for some reason additional tile
-        -- correction would be required. So we wait for native generation occurrence,
-        -- and this will guarantee existing of neighboring chunks
     end
-
-    local opposite_chunk_pos = { event.position.x, -event.position.y - 1 }
-    if surface.is_chunk_generated(opposite_chunk_pos) then
-        -- Notice that this will trigger for both paired chunks if they were force generated together, which is rare.
-        -- Otherwise first chunk will delay cloning until after the second one is generated
-        Mirror_terrain.clone(event)
-    end
-
-    -- Request chunk for opposite side, maintain the lockstep.
-    -- NOTE: There is still a window where user can place down a structure
-    -- and it will be mirrored. However this window is so tiny - user would
-    -- need to fly in god mode and spam entities in partially generated
-    -- chunks.
-    -- Setting position in the middle of a chunk sometimes doesn't
-    -- do a request, but seems to work for the left top corner, maybe an api bug?
-    surface.request_to_generate_chunks({ pos.x, -pos.y - 32 }, 0)
 
     -- add decorations only after the south part of the island is generated
     if event.position.y == 0 and event.position.x == 1 and storage.bb_settings['new_year_island'] then
         Terrain.add_new_year_island_decorations(surface)
-    end
-end
-
-local function on_entity_cloned(event)
-    local source = event.source
-    local destination = event.destination
-
-    -- In case entity dies between clone and this event we
-    -- have to ensure south doesn't get additional objects.
-    if not source.valid then
-        if destination.valid then
-            destination.destroy()
-        end
-
-        return
-    end
-
-    Mirror_terrain.invert_entity(event)
-end
-
-local function on_area_cloned(event)
-    local surface = event.destination_surface
-
-    -- Check if we're out of init and not between surface hot-swap.
-    if not surface or not surface.valid then
-        return
-    end
-
-    -- Event is fired only for south side.
-    Mirror_terrain.invert_tiles(event)
-    Mirror_terrain.invert_decoratives(event)
-
-    -- Check chunks around southen silo to remove water tiles under refined-concrete.
-    -- Silo can be removed by picking bricks from under it in a situation where
-    -- refined-concrete tiles were placed directly onto water tiles. This scenario does
-    -- not appear for north as water is removed during silo generation.
-    local position = event.destination_area.left_top
-    if position.y >= 0 and position.y <= 192 and math.abs(position.x) <= 192 then
-        Mirror_terrain.remove_hidden_tiles(event)
     end
 end
 
@@ -721,8 +660,6 @@ local function on_init()
 end
 
 local Event = require('utils.event')
-Event.add(defines.events.on_area_cloned, on_area_cloned)
-Event.add(defines.events.on_entity_cloned, on_entity_cloned)
 Event.add(defines.events.on_built_entity, on_built_entity)
 Event.add(defines.events.on_chunk_generated, on_chunk_generated)
 Event.add(defines.events.on_console_chat, on_console_chat)
