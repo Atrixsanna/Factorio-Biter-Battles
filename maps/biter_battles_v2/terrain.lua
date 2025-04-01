@@ -298,19 +298,7 @@ end
 ---@param include_spawn_circle boolean
 ---@return number y
 local function river_start(seed, x, include_spawn_circle)
-    -- Offset contains coefficient in a range between [0, 4]. Select it
-    -- from pre-computed table. Position X coordinate is used to determinate
-    -- which offset is selected.
-    local start = -river_width_half
-
-    if include_spawn_circle then
-        local circle_y_intersection = tile_near_column_with_origin_circle_intersection(x, river_circle_size)
-        if circle_y_intersection then
-            start = math_min(start, circle_y_intersection)
-        end
-    end
-
-    return start
+    return -river_width_half
 end
 
 ---@param chunk_pos {x: number, y: number}
