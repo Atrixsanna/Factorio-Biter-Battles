@@ -220,10 +220,13 @@ local function draw_noise_ore_patch(x, y, name, surface, radius, richness)
 
                 if noise then
                     local pos = { ore_x, ore_y }
+                    local pos_inv = { ore_x, -ore_y }
                     ore_template.position = pos
                     ore_template.name = name
                     ore_template.amount = amount
                     if can_place_entity(ore_template) then
+                        create_entity(ore_template)
+                        ore_template.position = pos_inv
                         create_entity(ore_template)
                         remove_structures_template.position = pos
                         for _, e in pairs(find_entities_filtered(remove_structures_template)) do
@@ -330,9 +333,6 @@ local spawn_wall_noise_radius = spawn_wall_radius + (4.5 + spawn_wall_noise_devi
 local function generate_starting_area(surface, chunk_pos, rng)
     local wooden_chest_template = { name = 'wooden-chest', position = { 0, 0 }, force = 'north' }
     local coal_template = { name = 'coal', position = { 0, 0 } }
-    local stone_wall_template = { name = 'stone-wall', position = { 0, 0 }, force = 'north' }
-    local gun_turret_template = { name = 'gun-turret', position = { 0, 0 }, force = 'north' }
-    local gun_turret_remnants_template = { name = 'gun-turret-remnants', position = { 0, 0 }, force = 'neutral' }
     local fire_magazine_template = { name = 'firearm-magazine', count = 0 }
 
     local seed = surface.map_gen_settings.seed
@@ -381,8 +381,10 @@ local function generate_starting_area(surface, chunk_pos, rng)
         for y = concrete_start, concrete_end do
             if get_tile(x, y).collides_with('resource') then
                 concrete_foundation[#concrete_foundation + 1] = { name = DEFAULT_HIDDEN_TILE, position = { x, y } }
+                concrete_foundation[#concrete_foundation + 1] = { name = DEFAULT_HIDDEN_TILE, position = { x, -y } }
             end
             concrete[#concrete + 1] = { name = 'refined-concrete', position = { x, y } }
+            concrete[#concrete + 1] = { name = 'refined-concrete', position = { x, -y } }
         end
 
         for y = noise_start, noise_end do
@@ -391,11 +393,13 @@ local function generate_starting_area(surface, chunk_pos, rng)
             local distance_from_spawn_wall = distance_to_center + noise - spawn_wall_radius
 
             local pos = { x, y }
+            local pos_inv = { x, -y }
             if distance_from_spawn_wall < -10 then
                 if get_tile(x, y).collides_with('resource') then
                     concrete_foundation[#concrete_foundation + 1] = { name = DEFAULT_HIDDEN_TILE, position = pos }
                 end
                 concrete[#concrete + 1] = { name = 'refined-concrete', position = pos }
+                concrete[#concrete + 1] = { name = 'refined-concrete', position = pos_inv }
                 goto continue
             end
 
@@ -416,38 +420,43 @@ local function generate_starting_area(surface, chunk_pos, rng)
 
             if noise_2 > -0.40 then
                 if distance_from_spawn_wall > -1.75 and distance_from_spawn_wall < 0 then
-                    stone_wall_template.position = pos
-                    create_entity(stone_wall_template)
+                    create_entity({ name = 'stone-wall', position = pos, force = 'north' })
+                    create_entity({ name = 'stone-wall', position = pos_inv, force = 'south' })
                 end
                 goto continue
             end
 
             if distance_from_spawn_wall > -1.95 and distance_from_spawn_wall < 0 then
-                stone_wall_template.position = pos
-                create_entity(stone_wall_template)
+                create_entity({ name = 'stone-wall', position = pos, force = 'north' })
+                create_entity({ name = 'stone-wall', position = pos_inv, force = 'south' })
             elseif distance_from_spawn_wall > 0 and distance_from_spawn_wall < 4.5 then
                 local r_max = math_floor(math_abs(distance_from_spawn_wall)) + 2
-                if rng(1, 3) == 1 then
-                    wooden_chest_template.name = 'wooden-chest-remnants'
-                end
+                local name = rng(1, 3) == 1 and 'wooden-chest-remnants' or 'wooden-chest'
                 if rng(1, r_max) == 1 then
-                    create_entity(wooden_chest_template)
+                    create_entity({ name = name, position = pos, force = 'north' })
+                    create_entity({ name = name, position = pos_inv, force = 'south' })
                 end
             elseif distance_from_spawn_wall > -6 and distance_from_spawn_wall < -3 then
                 if rng(1, 16) == 1 then
-                    gun_turret_template.position = pos
-                    if can_place_entity(gun_turret_template) then
-                        local turret = surface.create_entity(gun_turret_template)
+                    local entity = { name = 'gun-turret', position = pos, force = 'north' }
+                    if can_place_entity(entity) then
+                        local turret = surface.create_entity(entity)
                         fire_magazine_template.count = rng(2, 16)
                         turret.insert(fire_magazine_template)
                         ai_targets_start_tracking(turret)
+
+                        entity.force = 'south'
+                        entity.position[2] = pos_inv[2]+1
+                        local turret = surface.create_entity(entity)
+                        turret.insert(fire_magazine_template)
                     end
                 else
                     if rng(1, 24) == 1 then
-                        gun_turret_template.position = pos
-                        if can_place_entity(gun_turret_template) then
-                            gun_turret_remnants_template.position = pos
-                            surface.create_entity(gun_turret_remnants_template)
+                        local entity = { name = 'gun-turret-remnants', position = pos, force = 'north' }
+                        if can_place_entity(entity) then
+                            surface.create_entity(entity)
+                            entity.position[2] = pos_inv[2]+1
+                            surface.create_entity(entity)
                         end
                     end
                 end
@@ -570,8 +579,8 @@ end
 
 local function draw_spawn_island(surface)
     local tiles = {}
-    for x = math_floor(spawn_island_size) * -1, -1, 1 do
-        for y = math_floor(spawn_island_size) * -1, -1, 1 do
+    for x = -math_floor(spawn_island_size), -1, 1 do
+        for y = -math_floor(spawn_island_size), -1, 1 do
             if is_within_spawn_island(x, y) then
                 local distance_to_center = tile_distance_to_center(x, y)
                 local tile_name = 'refined-concrete'
@@ -590,6 +599,7 @@ local function draw_spawn_island(surface)
                 end
 
                 table_insert(tiles, { name = tile_name, position = { x = x, y = y } })
+                table_insert(tiles, { name = tile_name, position = { x = x, y = -y - 1} })
             end
         end
     end
@@ -600,7 +610,7 @@ local function draw_spawn_island(surface)
 
     surface.set_tiles(tiles, true)
 
-    local island_area = { { -spawn_island_size, -spawn_island_size }, { spawn_island_size, 0 } }
+    local island_area = { { -spawn_island_size, -spawn_island_size }, { spawn_island_size, spawn_island_size } }
     surface.destroy_decoratives({ area = island_area })
     for _, entity in pairs(surface.find_entities_filtered({area = island_area, name = 'character', invert = true})) do
         entity.destroy()
@@ -658,9 +668,6 @@ local function draw_spawn_area(surface, rng)
             generate_starting_area(surface, { x = x, y = y }, rng)
         end
     end
-
-    surface.destroy_decoratives({})
-    surface.regenerate_decorative()
 end
 
 local function draw_grid_ore_patch(count, grid, name, surface, size, density, rng)
@@ -694,7 +701,7 @@ end
 local function clear_ore_in_main(surface)
     local area = {
         left_top = { -150, -150 },
-        right_bottom = { 150, 0 },
+        right_bottom = { 150, 150 },
     }
     local limit = 20
     local cnt = 0
@@ -771,7 +778,7 @@ end
 
 local function generate_silo(surface, rng)
     local pos = { x = -32 + rng(0, 64), y = -72 }
-    local mirror_position = { x = pos.x * -1, y = pos.y * -1 }
+    local mirror_position = { x = pos.x, y = -pos.y }
 
     for _, t in
         pairs(surface.find_tiles_filtered({
@@ -804,6 +811,15 @@ local function generate_silo(surface, rng)
     silo.minable_flag = false
     storage.rocket_silo[silo.force.name] = silo
     AiTargets.start_tracking(silo)
+    local silo = surface.create_entity({
+        name = 'rocket-silo',
+        position = mirror_position,
+        force = 'south',
+    })
+    silo.minable_flag = false
+    storage.rocket_silo[silo.force.name] = silo
+    AiTargets.start_tracking(silo)
+
 
     for _, entity in pairs(surface.find_entities({ { pos.x - 4, pos.y - 6 }, { pos.x + 5, pos.y + 5 } })) do
         if entity.type == 'simple-entity' or entity.type == 'tree' then
@@ -818,10 +834,20 @@ local function generate_silo(surface, rng)
         surface.create_entity({ name = 'gun-turret', position = { x = pos.x + 2, y = pos.y - 5 }, force = 'north' })
     turret2.insert({ name = 'firearm-magazine', count = 10 })
     AiTargets.start_tracking(turret2)
+
+    local turret1 =
+        surface.create_entity({ name = 'gun-turret', position = { x = mirror_position.x, y = mirror_position.y + 6 }, force = 'south' })
+    turret1.insert({ name = 'firearm-magazine', count = 10 })
+    AiTargets.start_tracking(turret1)
+    local turret2 =
+        surface.create_entity({ name = 'gun-turret', position = { x = mirror_position.x + 2, y = mirror_position.y + 6 }, force = 'south' })
+    turret2.insert({ name = 'firearm-magazine', count = 10 })
+    AiTargets.start_tracking(turret2)
 end
 
 function Public.generate_initial_structures(surface)
     force_spawn_chunks_generation(surface, false)
+    force_spawn_chunks_generation(surface, true)
     local rng = create_rng_for_chunk({ x = 1, y = 1 }, surface.map_gen_settings.seed)
     draw_spawn_area(surface, rng)
     clear_ore_in_main(surface)
@@ -829,7 +855,6 @@ function Public.generate_initial_structures(surface)
     generate_additional_rocks(surface, rng)
     generate_silo(surface, rng)
     draw_spawn_island(surface)
-    force_spawn_chunks_generation(surface, true)
     request_biters_area_generation(surface)
 end
 

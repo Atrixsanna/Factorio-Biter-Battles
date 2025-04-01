@@ -6,7 +6,7 @@ local bb_config = {
     ['south_side_team_name'] = 'Team South',
 
     --TERRAIN OPTIONS--
-    ['border_river_width'] = 44, --Approximate width of the horizontal impassable river separating the teams. (values up to 64)
+    ['border_river_width'] = 64, --Approximate width of the horizontal impassable river separating the teams. (values up to 64)
 
     --BITER SETTINGS--
     ['bitera_area_distance'] = 512, --Distance to the biter area.
