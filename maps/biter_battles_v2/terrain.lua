@@ -262,11 +262,7 @@ local function is_horizontal_border_river(x, y, seed)
         return true
     end
 
-    -- Offset contains coefficient in a range between [0,4]. Select it
-    -- from pre-computed table. Position X coordinate is used to determinate
-    -- which offset is selected.
-    local offset = river.offset[(x + seed) % river.size]
-    y = -(y + offset)
+    y = -y
     return (y <= river_width_half)
 end
 
