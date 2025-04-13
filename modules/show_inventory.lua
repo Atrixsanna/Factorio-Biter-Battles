@@ -87,6 +87,12 @@ local function validate_player(player)
     if not player.valid then
         return false
     end
+    if not player.character then
+        return false
+    end
+    if not player.connected then
+        return false
+    end
     if not game.get_player(player.index) then
         return false
     end
